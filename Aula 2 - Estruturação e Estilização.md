@@ -199,31 +199,103 @@ Embora o foco seja HTML, os formulários são essenciais para coleta de dados do
 
 ---
 
-### 5. **Exercícios Finais**
+### 5. 🔧 **Exercício**
 
-1. **Crie uma Página de Portfólio:**
+Crie uma página de **Portfólio Pessoal** com os seguintes elementos:
 
-   * Crie uma página com três seções:
+---
 
-     * **Introdução**: Uma breve descrição sobre você.
-     * **Habilidades**: Use listas não ordenadas (`<ul>`).
-     * **Projetos**: Crie links para projetos fictícios ou reais.
+#### **1. Estrutura Semântica Completa**
 
-2. **Adicionar Estilos Personalizados:**
+Utilize as tags semânticas corretamente para dividir sua página:
 
-   * Altere a cor de fundo das seções, e adicione margens e fontes diferentes para os títulos e parágrafos.
+* `<header>` com seu nome e navegação fixa.
+* `<main>` para o conteúdo principal.
+* `<section>` para cada parte da página.
+* `<footer>` com créditos e contato.
 
-3. **Criar Links Internos:**
+---
 
-   * Adicione links internos para navegar entre as seções da página (por exemplo, de "Introdução" para "Habilidades").
+#### **2. Conteúdo Mínimo Obrigatório**
 
-4. **Formulário de Contato:**
+##### a. **Seção: Introdução**
 
-   * Adicione um formulário básico para coleta de informações (nome, e-mail, mensagem).
+* Use um `<div>` com um fundo personalizado (cor ou imagem).
+* Inclua:
 
-5. **Desafio de Navegação Fixa:**
+  * Um `<h1>` com seu nome.
+  * Um `<p>` com uma descrição curta.
+  * Um `<span>` para destacar palavras importantes (ex: profissão, hobby etc.).
 
-   * Crie uma navegação fixa no topo da página, permitindo que o usuário navegue facilmente entre as seções.
+##### b. **Seção: Habilidades**
+
+* Liste no mínimo **5 habilidades** com uma **lista não ordenada (`<ul>`)**.
+* Use pelo menos **duas cores diferentes** para destacar partes do texto com `<span>`.
+
+##### c. **Seção: Projetos**
+
+* Crie **no mínimo 2 projetos** com:
+
+  * Nome do projeto (`<h3>`)
+  * Pequena descrição (`<p>`)
+  * Um link clicável com `<a>` (pode ser fictício).
+* Envolva cada projeto em uma `<div>` com uma cor ou borda diferente.
+
+##### d. **Seção: Formulário de Contato**
+
+* Adicione campos:
+
+  * Nome
+  * E-mail
+  * Mensagem
+  * Campo “Como nos conheceu?” com `<select>` e 3 opções
+* Use `required` nos campos importantes.
+
+---
+
+#### **3. Estilização Inline (CSS em `style`)**
+
+* Cada seção (`<section>`) deve ter:
+
+  * Cor de fundo diferente
+  * Padding personalizado
+  * Margem inferior
+* Os títulos (`<h1>`, `<h2>`, `<h3>`) devem usar:
+
+  * Fonte maior
+  * Alinhamento diferente (centro, esquerda, etc.)
+* Adicione pelo menos uma imagem de fundo usando `background-image` em uma `<div>`.
+
+---
+
+#### **4. Navegação Fixa (Sticky Header)**
+
+* Crie uma navegação fixa no topo da página.
+* Os links devem levar a cada seção da página.
+* Use `position: fixed` e `top: 0` para fixar.
+* Adicione `margin-top` nas seções para que o conteúdo não fique escondido atrás do menu.
+
+---
+
+#### **5. Extras (opcional)**
+
+Se quiser ir além, você pode:
+
+* Usar emojis nos textos para tornar o portfólio mais amigável.
+* Usar `<hr>` para separar visualmente as seções.
+
+---
+
+### ✅ **Objetivo**
+
+Com esse exercício, você irá praticar:
+
+* Uso semântico de HTML
+* Estruturação com `<div>` e `<section>`
+* Estilização com `style`
+* Navegação interna
+* Formulários
+* Criatividade no layout
 
 ---
 
