@@ -264,10 +264,6 @@
 - Legendas para um dos vídeos
 - Descrição para cada vídeo
 
----
-
-# 🧠 Exercícios Práticos (cont.)
-
 3️⃣ **Formulário de Envio de Imagens**
 - Validação de tipo de arquivo
 - Limite de tamanho
