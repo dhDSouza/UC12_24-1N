@@ -65,10 +65,6 @@ box-sizing: border-box;
 * `max-width`, `min-height`: limites para responsividade
 * `overflow: hidden | scroll | auto | visible`
 
-Claro! Vou detalhar a explicação sobre a propriedade `position` e adicionar exemplos práticos para cada tipo de posicionamento. Aqui vai uma explicação mais clara:
-
----
-
 ### 🎯 **Position (Posicionamento)**
 
 A propriedade `position` no CSS define o tipo de posicionamento de um elemento na página. Existem cinco valores principais para a propriedade `position`, e cada um deles altera a forma como o elemento é posicionado em relação ao seu contexto.
