@@ -88,7 +88,7 @@ Utilize **Flexbox** para alinhar os elementos internos dentro de seções, como:
 
 | Critério                          | Peso |
 |:---------------------------------:|:----:|
-| Aplicação de Grid Layout          | 2,0  |
+| Aplicação de Grid Layout          | 3,0  |
 | Aplicação de Flexbox              | 2,0  |
 | Responsividade                    | 1,5  |
 | Organização do código e estrutura | 1,5  |
