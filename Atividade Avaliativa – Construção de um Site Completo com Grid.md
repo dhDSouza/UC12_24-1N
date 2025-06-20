@@ -1,4 +1,4 @@
-# 🧠 Atividade Avaliativa – Construção de um Site Completo com HTML e CSS
+# 🧠 Atividade Avaliativa – Construção de um Site Completo com Grid Layout
 
 ### 🎯 **Objetivo**
 
