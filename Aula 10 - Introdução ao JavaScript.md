@@ -280,17 +280,16 @@ Crie uma função `somaNumeros(a, b)` que receba dois números e retorne a soma.
 
 ## 🧠 **Exercícios - Parte 2: Eventos em JavaScript**
 
-### 🖱️ **Ex. 3 – Contador de Cliques**
+### 🔁 **Ex. 3 – Alternar Visibilidade de um Elemento**
 
-Crie uma página com:
+Crie:
 
-* Um botão com o texto "Clique aqui"
-* Um parágrafo com o texto "Você clicou 0 vezes"
+* Um botão com o texto "Mostrar/Esconder"
+* Um parágrafo com um texto qualquer
 
-Use JavaScript para:
+**Objetivo:**
 
-* Contar quantas vezes o botão foi clicado
-* Atualizar o texto do parágrafo a cada clique
+* Ao clicar no botão, o parágrafo deve ser escondido se estiver visível e mostrado se estiver escondido.
 
 ### 🎨 **Ex. 4 – Mudança de Cor com Mouse**
 
