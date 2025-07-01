@@ -1,219 +1,203 @@
-# Uso do `fetch`
+# 🌐 Aula: Trabalhando com `fetch` e Consumindo APIs no JavaScript
 
-### **O que é `fetch`?**
+## 🧠 O que é o `fetch`?
 
-`fetch` é uma função embutida em navegadores modernos que permite fazer requisições `HTTP` de maneira assíncrona. Com ele, podemos interagir com APIs, obtendo dados ou enviando informações. O `fetch` utiliza Promises, tornando o código mais legível e fácil de trabalhar.
+O `fetch` é uma função nativa do *JavaScript* usada para enviar e receber mensagens entre seu código e servidores, utilizando o protocolo **HTTP**.
 
-### **Sintaxe básica:**
+* Ele é **assíncrono** e baseado em **Promises**, ou seja:
+
+  * Não trava o código enquanto espera a resposta,
+  * E permite trabalhar com **requisições encadeadas** e **tratamento de erros**.
+
+> [!TIP]
+> O `fetch` é o **caminho moderno** pra interagir com **APIs** — interfaces que os servidores oferecem pra você **buscar ou enviar dados**!
+
+---
+
+## 📚 A Importância de Ler a Documentação da API
+
+Antes de usar qualquer API, é essencial entender como ela funciona:
+
+🔍 **Por que ler a documentação da API?**
+
+* 📎 Descobre os **endpoints disponíveis** (URLs que você pode acessar).
+* 📮 Entende os **métodos HTTP** que ela aceita (`GET`, `POST`, etc).
+* 🧾 Sabe **quais dados enviar e receber**, e em qual formato (geralmente JSON).
+* ❌ Aprende como a API **retorna erros** (pra tratar corretamente no seu código).
+* 🔐 E se for protegida, aprende como usar **tokens de acesso** (API Keys, Bearer Tokens...).
+
+> [!NOTE] 
+> A última [sessão](#-documentação-das-apis-vistas) desta aula contém links para as documentações de cada API utilizada nos exemplos. Leia com carinho ❤️
+
+---
+
+## ⚙️ Como funciona o `fetch`?
+
+### 🧪 Sintaxe básica:
 
 ```javascript
 fetch(url, options)
-  .then(response => response.json()) // Converte a resposta em JSON
-  .then(data => console.log(data))    // Exibe os dados recebidos no console
+  .then(response => response.json()) // Converte a resposta para JSON
+  .then(data => console.log(data))   // Usa os dados recebidos
   .catch(error => console.error('Erro:', error)); // Trata erros
 ```
 
-- **url**: O endpoint da API que você deseja acessar.
-- **options**: Objeto opcional para configurar o método, cabeçalhos, corpo, etc.
-- **response.json()**: Converte a resposta da API em JSON (geralmente o formato de dados de uma API REST).
-- **.catch()**: Trata erros na requisição.
+* `url`: endereço do recurso (API).
+* `options`: configurações como método, cabeçalhos, corpo da requisição.
+* `.then()`: manipula a resposta (com `.json()` para transformar).
+* `.catch()`: captura erros de rede ou falhas na API.
 
-### **Passo a Passo da Requisição:**
+---
 
-1. **Faz a requisição** usando a função `fetch()`.
-2. **Recebe a resposta** (promessa resolvida).
-3. **Transforma os dados** em um formato utilizável, como JSON.
-4. **Exibe ou manipula os dados** no navegador.
-5. **Trata erros** usando `.catch()`.
+## 🔁 Métodos HTTP e o CRUD
 
-## 2. Exemplos Práticos
+| Ação do CRUD | Método HTTP |         Significado        |
+| :----------: | :---------: | :------------------------: |
+|    Create    |     POST    |     Criar um novo dado     |
+|     Read     |     GET     |      Buscar/ler dados      |
+|    Update    | PUT / PATCH | Atualizar dados existentes |
+|    Delete    |    DELETE   |        Remover dados       |
 
-### Exemplo 1: Fazendo uma Requisição GET
+---
 
-Vamos consumir uma API pública que retorna uma lista de usuários. Neste exemplo, usaremos a API da [JSONPlaceholder](https://jsonplaceholder.typicode.com).
+## 🧪 Exemplos Práticos
+
+### ✅ Exemplo 1: Requisição GET – Listando Usuários
 
 ```html
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Requisição GET com fetch</title>
-</head>
-<body>
-  <h1>Lista de Usuários</h1>
-  <ul id="userList"></ul>
+<h1>Usuários</h1>
+<ul id="listaUsuarios"></ul>
 
-  <script>
-    // Fazendo uma requisição GET para obter dados de usuários
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then(response => response.json()) // Converte a resposta em JSON
+<script>
+  fetch('https://jsonplaceholder.typicode.com/users')
+    .then(res => res.json())
+    .then(data => {
+      const ul = document.getElementById('listaUsuarios');
+      data.forEach(user => {
+        const li = document.createElement('li');
+        li.textContent = `${user.name} - ${user.email}`;
+        ul.appendChild(li);
+      });
+    })
+    .catch(erro => console.error('Erro:', erro));
+</script>
+```
+
+---
+
+### 📝 Exemplo 2: Requisição POST – Criando um Post
+
+```html
+<form id="formPost">
+  <input id="titulo" placeholder="Título" required />
+  <textarea id="conteudo" placeholder="Conteúdo" required></textarea>
+  <button type="submit">Enviar</button>
+</form>
+
+<script>
+  document.getElementById('formPost').addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const titulo = document.getElementById('titulo').value;
+    const conteudo = document.getElementById('conteudo').value;
+
+    fetch('https://jsonplaceholder.typicode.com/posts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title: titulo,
+        body: conteudo,
+        userId: 1
+      })
+    })
+    .then(res => res.json())
+    .then(data => console.log('Post criado:', data))
+    .catch(err => console.error('Erro:', err));
+  });
+</script>
+```
+
+---
+
+### 🎬 Exemplo 3: Consumindo API de Filmes (OMDb)
+
+```javascript
+fetch(`http://www.omdbapi.com/?t=Inception&apikey=SUA_API_KEY`)
+  .then(res => res.json())
+  .then(data => {
+    console.log(data.Title, data.Year, data.Poster);
+  });
+```
+
+> [!IMPORTANT]
+> Substitua `SUA_API_KEY` por uma chave válida da OMDb (gratuita com cadastro no site deles).
+
+---
+
+### 🔎 Exemplo 4: Busca Dinâmica com Formulário (OMDb)
+
+```html
+<form id="formBusca">
+  <input id="filme" placeholder="Nome do filme" required />
+  <button type="submit">Buscar</button>
+</form>
+<div id="resultado"></div>
+
+<script>
+  const API_KEY = 'SUA_API_KEY';
+
+  document.getElementById('formBusca').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const titulo = document.getElementById('filme').value;
+    fetch(`http://www.omdbapi.com/?t=${titulo}&apikey=${API_KEY}`)
+      .then(res => res.json())
       .then(data => {
-        const userList = document.getElementById('userList');
-        
-        // Itera sobre os dados e os exibe na página
-        data.forEach(user => {
-          const li = document.createElement('li');
-          li.textContent = `${user.name} - ${user.email}`;
-          userList.appendChild(li);
-        });
-      })
-      .catch(error => console.error('Erro na requisição:', error)); // Tratamento de erros
-  </script>
-</body>
-</html>
+        const resultado = document.getElementById('resultado');
+        if (data.Response === "True") {
+          resultado.innerHTML = `
+            <p><strong>Título:</strong> ${data.Title}</p>
+            <p><strong>Ano:</strong> ${data.Year}</p>
+            <img src="${data.Poster}" alt="Pôster do filme" />
+          `;
+        } else {
+          resultado.innerHTML = '<p>Filme não encontrado 😢</p>';
+        }
+      });
+  });
+</script>
 ```
-
-Neste exemplo, a lista de usuários é exibida na página, utilizando a função `appendChild` para adicionar elementos dinamicamente.
 
 ---
 
-### Exemplo 2: Fazendo uma Requisição POST
+## 🧩 Exercícios
 
-Neste exemplo, enviaremos dados para a API usando o método POST.
+### 1. ✅ Listar Tarefas com `GET`
 
-```html
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Requisição POST com fetch</title>
-</head>
-<body>
-  <h1>Criação de Post</h1>
-
-  <form id="postForm">
-    <label for="title">Título:</label>
-    <input type="text" id="title" placeholder="Título" required />
-    
-    <label for="body">Conteúdo:</label>
-    <textarea id="body" placeholder="Conteúdo" required></textarea>
-    
-    <button type="submit">Enviar</button>
-  </form>
-
-  <script>
-    document.getElementById('postForm').addEventListener('submit', function (e) {
-      e.preventDefault(); // Evita o comportamento padrão do formulário
-
-      const title = document.getElementById('title').value;
-      const body = document.getElementById('body').value;
-
-      // Enviando dados com uma requisição POST
-      fetch('https://jsonplaceholder.typicode.com/posts', {
-        method: 'POST', // Define o método como POST
-        headers: {
-          'Content-Type': 'application/json' // Cabeçalhos indicando o formato dos dados enviados
-        },
-        body: JSON.stringify({ title, body, userId: 1 }) // Convertendo o objeto para JSON
-      })
-        .then(response => response.json())
-        .then(data => console.log('Post criado:', data))
-        .catch(error => console.error('Erro ao enviar:', error));
-    });
-  </script>
-</body>
-</html>
-```
-
-Aqui, o formulário captura o título e o conteúdo do post e faz uma requisição POST para criar um novo post na API.
+-  Use a URL: `https://jsonplaceholder.typicode.com/todos`
+- Mostre os **10 primeiros** títulos e se estão **completos ou não**.
 
 ---
 
-### Exemplo 3: Requisição GET para uma API de Filmes
+### 2. 📝 Criar um Formulário de Comentários com `POST`
 
-Neste exemplo, vamos consumir a [OMDb API](http://www.omdbapi.com/) para buscar informações sobre um filme. Exibiremos o título, ano de lançamento e pôster do filme na página.
-
-```html
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Filmes com OMDb API</title>
-</head>
-<body>
-  <h1>Detalhes do Filme</h1>
-  <p id="title"></p>
-  <p id="year"></p>
-  <img id="poster" src="" alt="Poster do filme" />
-
-  <script>
-    const apiKey = 'sua_api_key_aqui'; // Lembre-se de substituir pela sua chave de API
-    fetch(`http://www.omdbapi.com/?t=Inception&apikey=${apiKey}`)
-      .then(response => response.json())
-      .then(data => {
-        document.getElementById('title').textContent = `Título: ${data.Title}`;
-        document.getElementById('year').textContent = `Ano: ${data.Year}`;
-        document.getElementById('poster').src = data.Poster;
-      })
-      .catch(error => console.error('Erro:', error));
-  </script>
-</body>
-</html>
-```
-
-Este exemplo demonstra como exibir informações de um filme na página usando dados retornados pela OMDb API.
+- Envie nome e comentário para: `https://jsonplaceholder.typicode.com/comments`
+- Mostre no console a resposta da API.
 
 ---
 
-### Exemplo 4: Criando um Formulário Dinâmico para Busca de Filmes
+### 3. 🧠 Desafio: Busca de Personagens de Rick and Morty
 
-```html
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Busca de Filmes</title>
-</head>
-<body>
-  <h1>Buscar Filme</h1>
-  <form id="movieForm">
-    <input type="text" id="movieTitle" placeholder="Digite o título do filme" required />
-    <button type="submit">Buscar</button>
-  </form>
+- Use a URL:
+  `https://rickandmortyapi.com/api/character/?name=<nome_do_personagem>`
+- Mostre na tela:
 
-  <h2>Resultado:</h2>
-  <p id="title"></p>
-  <p id="year"></p>
-  <img id="poster" src="" alt="Poster do filme" />
+  * Nome
+  * Imagem
+  * Status (vivo ou morto)
 
-  <script>
-    const apiKey = 'sua_api_key_aqui'; // Lembre-se de substituir pela sua chave de API
+## 📖 Documentação das APIs vistas 
 
-    document.getElementById('movieForm').addEventListener('submit', function (e) {
-      e.preventDefault(); // Evita o envio padrão do formulário
-
-      const movieTitle = document.getElementById('movieTitle').value;
-
-      fetch(`http://www.omdbapi.com/?t=${movieTitle}&apikey=${apiKey}`)
-        .then(response => response.json())
-        .then(data => {
-          if (data.Response === "True") {
-            document.getElementById('title').textContent = `Título: ${data.Title}`;
-            document.getElementById('year').textContent = `Ano: ${data.Year}`;
-            document.getElementById('poster').src = data.Poster;
-          } else {
-            document.getElementById('title').textContent = 'Filme não encontrado';
-            document.getElementById('year').textContent = '';
-            document.getElementById('poster').src = '';
-          }
-        })
-        .catch(error => console.error('Erro:', error));
-    });
-  </script>
-</body>
-</html>
-```
-
-Este exemplo adiciona um formulário para que o usuário possa buscar informações sobre qualquer filme pela OMDb API. A pesquisa é realizada com base no título inserido no formulário.
-
----
-
-### Considerações Finais
-
-- **Trate os erros**: Sempre use `.catch()` para tratar possíveis erros na comunicação com a API.
-- **Manipule o DOM**: Após obter os dados da API, exiba-os na página manipulando o DOM com JavaScript.
-- **Teste em diferentes navegadores**: Embora `fetch` seja suportado pela maioria dos navegadores modernos, é importante garantir a compatibilidade com versões mais antigas, caso necessário.
+- {JSON} Placeholder: [https://jsonplaceholder.typicode.com/guide](https://jsonplaceholder.typicode.com/guide)
+- OMDb API: [http://www.omdbapi.com/](http://www.omdbapi.com/)
+- The Rick and Morty API: [https://rickandmortyapi.com/documentation](https://rickandmortyapi.com/documentation)
